@@ -1,3 +1,5 @@
+
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
@@ -12,7 +14,7 @@ app.use(bodyParser.json());
 
 connectToDatabase();
 
-const baseRoute = '/'; 
+const baseRoute = '/';
 
 const booksRoutes = require('./routes/books');
 
