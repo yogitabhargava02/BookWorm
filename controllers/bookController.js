@@ -20,6 +20,9 @@ exports.createBook = (req, res) => {
 exports.getAllBooks = (req, res) => {
   Book.find()
     .then((books) => {
+      if (books.length === 0) {
+        return res.status(200).json({ message: 'No books are available right now' });
+      }
       res.status(200).json(books);
     })
     .catch((error) => {
@@ -34,7 +37,7 @@ exports.getBookById = (req, res) => {
   Book.findById(bookId)
     .then((book) => {
       if (!book) {
-        return res.status(404).json({ error: 'Book not found' });
+        return res.status(404).json({ message: 'Book is not available' });
       }
       res.status(200).json(book);
     })
@@ -43,6 +46,7 @@ exports.getBookById = (req, res) => {
       res.status(500).json({ error: 'Could not fetch the book' });
     });
 };
+
 exports.updateBook = (req, res) => {
   const bookId = req.params.bookId;
 
@@ -57,7 +61,7 @@ exports.updateBook = (req, res) => {
   )
     .then((updatedBook) => {
       if (!updatedBook) {
-        return res.status(404).json({ error: 'Book not found' });
+        return res.status(404).json({ message: 'Book not found' });
       }
       res.status(200).json({
         message: 'Book updated successfully',
@@ -76,7 +80,7 @@ exports.deleteBook = (req, res) => {
   Book.findByIdAndRemove(bookId)
     .then((deletedBook) => {
       if (!deletedBook) {
-        return res.status(404).json({ error: 'Book not found' });
+        return res.status(404).json({ message: 'Book not found' });
       }
       res.status(200).json({ message: 'Book deleted successfully' });
     })
