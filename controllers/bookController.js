@@ -43,7 +43,6 @@ exports.getBookById = (req, res) => {
       res.status(500).json({ error: 'Could not fetch the book' });
     });
 };
-
 exports.updateBook = (req, res) => {
   const bookId = req.params.bookId;
 
@@ -60,7 +59,10 @@ exports.updateBook = (req, res) => {
       if (!updatedBook) {
         return res.status(404).json({ error: 'Book not found' });
       }
-      res.status(200).json(updatedBook);
+      res.status(200).json({
+        message: 'Book updated successfully',
+        book: updatedBook,
+      });
     })
     .catch((error) => {
       console.error('Error updating book:', error);
@@ -76,7 +78,7 @@ exports.deleteBook = (req, res) => {
       if (!deletedBook) {
         return res.status(404).json({ error: 'Book not found' });
       }
-      res.status(204).end();
+      res.status(200).json({ message: 'Book deleted successfully' });
     })
     .catch((error) => {
       console.error('Error deleting book:', error);
